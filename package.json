@@ -9,6 +9,7 @@
     "lint": "next lint",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
+    "typecheck": "tsc --noEmit --incremental false",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
