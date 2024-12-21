@@ -10,11 +10,19 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  args: { onClick: fn(), size: 'md', children: '클릭!' },
+  args: { onClick: fn(), variant: 'default', size: 'md', children: '클릭!' },
   argTypes: {
+    variant: {
+      description: '버튼의 스타일을 지정합니다.',
+      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
+      control: { type: 'radio' },
+      table: {
+        defaultValue: { summary: 'default' },
+      },
+    },
     size: {
       description: '버튼의 크기를 지정합니다.',
-      options: ['sm', 'md', 'lg'],
+      options: ['sm', 'md', 'lg', 'icon'],
       control: { type: 'radio' },
       table: {
         defaultValue: { summary: 'md' },
@@ -26,6 +34,13 @@ const meta = {
     },
     onClick: {
       description: '버튼 클릭 시 실행될 함수를 지정합니다.',
+    },
+    asChild: {
+      description: '버튼을 다른 컴포넌트로 렌더링할지 여부를 지정합니다.',
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+      },
     },
   },
 } satisfies Meta<typeof Button>;
@@ -69,5 +84,61 @@ export const Medium: Story = {
 export const Large: Story = {
   args: {
     size: 'lg',
+  },
+};
+
+/**
+ * 위험한 동작을 수행하는 버튼입니다.
+ */
+export const Destructive: Story = {
+  args: {
+    variant: 'destructive',
+  },
+};
+
+/**
+ * 테두리가 있는 버튼입니다.
+ */
+export const Outline: Story = {
+  args: {
+    variant: 'outline',
+  },
+};
+
+/**
+ * 보조 버튼입니다.
+ */
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+  },
+};
+
+/**
+ * 배경이 투명한 버튼입니다.
+ */
+export const Ghost: Story = {
+  args: {
+    variant: 'ghost',
+  },
+};
+
+/**
+ * 링크처럼 보이는 버튼입니다.
+ */
+export const Link: Story = {
+  args: {
+    variant: 'link',
+  },
+};
+
+/**
+ * 아이콘 크기의 버튼입니다.
+ */
+export const Icon: Story = {
+  args: {
+    size: 'icon',
+    variant: 'outline',
+    children: '🔍',
   },
 };
