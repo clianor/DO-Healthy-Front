@@ -35,8 +35,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const ratings = canvas.getByRole('generic');
+    const ratings = canvas.getByLabelText('3점 (5점 만점)');
     await expect(ratings).toBeInTheDocument();
+    const filledStars = canvas.getAllByRole('img', { hidden: true });
+    await expect(filledStars).toHaveLength(5);
   },
 };
 
