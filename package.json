@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "ci": "pnpm install --frozen-lockfile",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
