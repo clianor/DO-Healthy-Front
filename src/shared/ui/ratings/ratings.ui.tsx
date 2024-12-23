@@ -17,7 +17,7 @@ export function Ratings({ rating, totalStars = 5, className, ...props }: Ratings
       <div className="flex items-center">
         {Array.from({ length: totalStars }).map((_, index) => {
           const isHalf = rating - index === 0.5;
-          if (rating < index) return <EmptyStarIcon key={index} aria-hidden="true" />;
+          if (rating <= index) return <EmptyStarIcon key={index} aria-hidden="true" />;
           if (isHalf) return <HalfStarIcon key={index} aria-hidden="true" />;
           return <StarIcon key={index} aria-hidden="true" />;
         })}
@@ -37,6 +37,7 @@ function StarIcon() {
       viewBox="0 0 18 16"
       role="img"
       aria-hidden="true"
+      data-testid="star-icon"
     >
       <defs>
         <clipPath id="master_svg0_85_3871">
@@ -72,6 +73,7 @@ function EmptyStarIcon() {
       viewBox="0 0 18 16"
       role="img"
       aria-hidden="true"
+      data-testid="empty-star-icon"
     >
       <defs>
         <clipPath id="master_svg0_85_00336">
@@ -107,6 +109,7 @@ function HalfStarIcon() {
       viewBox="0 0 16.75 16"
       role="img"
       aria-hidden="true"
+      data-testid="half-star-icon"
     >
       <defs>
         <clipPath id="master_svg0_85_3851">
