@@ -37,8 +37,8 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     const ratings = canvas.getByLabelText('3점 (5점 만점)');
     await expect(ratings).toBeInTheDocument();
-    const filledStars = canvas.getAllByRole('img', { hidden: true });
-    await expect(filledStars).toHaveLength(5);
+    const filledStars = canvas.getAllByTestId('star-icon');
+    await expect(filledStars).toHaveLength(3);
   },
 };
 
