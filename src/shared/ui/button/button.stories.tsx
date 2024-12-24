@@ -10,7 +10,7 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  args: { onClick: fn(), variant: 'default', size: 'md', children: '클릭!' },
+  args: { onClick: fn(), variant: 'default', size: 'default', children: '클릭!' },
   argTypes: {
     variant: {
       description: '버튼의 스타일을 지정합니다.',
@@ -22,10 +22,10 @@ const meta = {
     },
     size: {
       description: '버튼의 크기를 지정합니다.',
-      options: ['sm', 'md', 'lg', 'icon'],
+      options: ['sm', 'default', 'lg', 'icon'],
       control: { type: 'radio' },
       table: {
-        defaultValue: { summary: 'md' },
+        defaultValue: { summary: 'default' },
       },
     },
     children: {
@@ -74,7 +74,7 @@ export const Small: Story = {
  */
 export const Medium: Story = {
   args: {
-    size: 'md',
+    size: 'default',
   },
 };
 
