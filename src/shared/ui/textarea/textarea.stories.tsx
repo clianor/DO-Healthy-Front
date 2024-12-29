@@ -54,6 +54,7 @@ export const Disabled: Story = {
  */
 export const WithLongText: Story = {
   args: {
+    readOnly: true,
     value:
       '안녕하세요! 저는 긴 텍스트를 작성하고 있습니다.\n텍스트 영역은 내용이 길어져도 자연스럽게 스크롤됩니다.\n자유롭게 긴 내용을 작성해보세요.',
   },
