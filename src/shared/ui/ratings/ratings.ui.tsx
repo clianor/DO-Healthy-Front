@@ -116,7 +116,7 @@ function HalfStarIcon() {
           <rect x="0" y="0" width="16.75" height="16" rx="0" />
         </clipPath>
       </defs>
-      <g clip-path="url(#master_svg0_85_3851)">
+      <g clipPath="url(#master_svg0_85_3851)">
         <g transform="matrix(1,0,0,-1,0,32.69061279296875)">
           <g>
             <path
