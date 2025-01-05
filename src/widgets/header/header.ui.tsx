@@ -12,31 +12,33 @@ export function Header() {
 
   return (
     <header className="flex justify-between px-8 py-4 border-b border-b-border">
-      <span className="flex items-center gap-x-8">
-        <Link href="/">
-          <Image className="invert" src="/vercel.svg" alt="" width={32} height={32} />
-        </Link>
-        {[
-          { href: '/', text: '홈' },
-          { href: '/recipes', text: '레시피' },
-          { href: '/milfap', text: '밀프랩' },
-          { href: '/recipes/disease', text: '질환별 식단' },
-        ].map(({ href, text }) => {
-          return (
-            <NavLink key={href} href={href}>
-              {text}
-            </NavLink>
-          );
-        })}
-      </span>
+      <nav>
+        <div className="flex items-center gap-x-8">
+          <Link href="/" aria-label="홈으로 이동">
+            <Image className="invert" src="/vercel.svg" alt="로고" width={32} height={32} />
+          </Link>
+          <ul className="flex items-center gap-x-8 list-none">
+            {[
+              { href: '/', text: '홈' },
+              { href: '/recipes', text: '레시피' },
+              { href: '/milfap', text: '밀프랩' },
+              { href: '/recipes/disease', text: '질환별 식단' },
+            ].map(({ href, text }) => (
+              <li key={href}>
+                <NavLink href={href}>{text}</NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
 
-      <span>
+      <div>
         <Button asChild>
           <Link href={isLoggedIn ? '/auth/logout' : '/auth/login'}>
             {isLoggedIn ? '로그아웃' : '로그인'}
           </Link>
         </Button>
-      </span>
+      </div>
     </header>
   );
 }
