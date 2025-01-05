@@ -11,13 +11,13 @@ export function Header() {
   const isLoggedIn = useSessionStore((state) => !!state.session);
 
   return (
-    <header className="flex justify-between px-8 py-4 border-b border-b-border">
+    <header className="flex justify-between border-b border-b-border px-8 py-4">
       <nav>
         <div className="flex items-center gap-x-8">
           <Link href="/" aria-label="홈으로 이동">
             <Image className="invert" src="/vercel.svg" alt="로고" width={32} height={32} />
           </Link>
-          <ul className="flex items-center gap-x-8 list-none">
+          <ul className="flex list-none items-center gap-x-8">
             {[
               { href: '/', text: '홈' },
               { href: '/recipes', text: '레시피' },
@@ -60,8 +60,8 @@ function NavLink({ href, children }: NavLinkProps) {
         'transition-colors',
         'border-b-2 border-transparent',
         {
-          'text-foreground border-b-foreground': isActive,
-          'text-muted-foreground hover:text-foreground hover:border-b-foreground': !isActive,
+          'border-b-foreground text-foreground': isActive,
+          'text-muted-foreground hover:border-b-foreground hover:text-foreground': !isActive,
         },
       )}
       aria-current={isActive ? 'page' : undefined}

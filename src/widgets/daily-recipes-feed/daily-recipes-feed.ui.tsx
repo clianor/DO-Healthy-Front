@@ -12,11 +12,11 @@ import { ScrollArea, ScrollBar } from '@/shared/ui/scroll-area';
 
 export function DailyRecipesFeed() {
   return (
-    <div className="flex flex-col bg-secondary px-8 py-12 gap-y-8">
-      <h2 className="font-bold text-2xl">오늘의 추천 레시피</h2>
+    <div className="flex flex-col gap-y-8 bg-secondary px-8 py-12">
+      <h2 className="text-2xl font-bold">오늘의 추천 레시피</h2>
 
       <ScrollArea className="w-full">
-        <ul className="flex flex-row gap-x-8 flex-nowrap max-w-7xl pb-3">
+        <ul className="flex max-w-7xl flex-row flex-nowrap gap-x-8 pb-3">
           {new Array(8)
             .fill({
               imageUrl: 'https://picsum.photos/id/63/350/200',
@@ -81,7 +81,7 @@ function DailyRecipeCard({
           <CardDescription>{description}</CardDescription>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <div className="text-muted-foreground flex items-center gap-x-1 text-sm">
+          <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
             <Image
               className="dark:invert"
               src="/assets/svgs/time.svg"
@@ -92,7 +92,7 @@ function DailyRecipeCard({
             />
             <span>{cookingTime}분</span>
           </div>
-          <div className="text-muted-foreground flex items-center gap-x-1 text-sm">
+          <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
             <Image
               className="dark:invert"
               src="/assets/svgs/calorie.svg"
@@ -103,7 +103,7 @@ function DailyRecipeCard({
             />
             <span>{calorie}kcal</span>
           </div>
-          <div className="text-muted-foreground flex items-center gap-x-1 text-sm">
+          <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
             <Image
               className="dark:invert"
               src="/assets/svgs/difficulty.svg"
