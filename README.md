@@ -14,8 +14,11 @@ Do Healthy는 개인의 건강 상태와 목표에 맞춘 레시피를 추천해
 git clone https://github.com/[username]/do-healthy.git
 
 # 의존성 설치
-npm install
+pnpm install
 
 # 개발 서버 실행
-npm run dev
+pnpm run dev
+
+# 스토리북 실행
+pnpm run storybook
 ```
