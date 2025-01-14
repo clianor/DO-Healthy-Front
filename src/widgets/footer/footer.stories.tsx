@@ -38,6 +38,6 @@ export const Default: Story = {
     await expect(canvas.getByText('공지사항')).toBeInTheDocument();
 
     // 저작권 텍스트 확인
-    await expect(canvas.getByText('© 2024 건강식단. All rights reserved.')).toBeInTheDocument();
+    await expect(canvas.getByText('© 2024 Do-Healthy. All rights reserved.')).toBeInTheDocument();
   },
 };
