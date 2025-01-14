@@ -8,15 +8,16 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shared/ui/card';
+import { Container } from '@/shared/ui/container';
 import { ScrollArea, ScrollBar } from '@/shared/ui/scroll-area';
 
 export function DailyRecipesFeed() {
   return (
-    <div className="flex flex-col gap-y-8 bg-secondary px-8 py-12">
+    <Container className="flex flex-col gap-y-8 bg-secondary py-12">
       <h2 className="text-2xl font-bold">오늘의 추천 레시피</h2>
 
       <ScrollArea className="w-full">
-        <ul className="flex max-w-7xl flex-row flex-nowrap gap-x-8 pb-3">
+        <ul className="flex flex-row flex-nowrap gap-x-8 pb-3">
           {new Array(8)
             .fill({
               imageUrl: 'https://picsum.photos/id/63/350/200',
@@ -28,21 +29,22 @@ export function DailyRecipesFeed() {
             })
             .map(({ imageUrl, title, description, cookingTime, calorie, difficulty }, index) => {
               return (
-                <DailyRecipeCard
-                  key={index}
-                  imageUrl={imageUrl}
-                  title={title}
-                  description={description}
-                  cookingTime={cookingTime}
-                  calorie={calorie}
-                  difficulty={difficulty}
-                />
+                <li key={index}>
+                  <DailyRecipeCard
+                    imageUrl={imageUrl}
+                    title={title}
+                    description={description}
+                    cookingTime={cookingTime}
+                    calorie={calorie}
+                    difficulty={difficulty}
+                  />
+                </li>
               );
             })}
         </ul>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-    </div>
+    </Container>
   );
 }
 
@@ -64,58 +66,56 @@ function DailyRecipeCard({
   difficulty,
 }: DailyRecipeCardProps) {
   return (
-    <li>
-      <Card className="w-96 overflow-hidden">
-        <CardHeader className="relative h-[200px] p-0">
+    <Card className="w-96 overflow-hidden">
+      <CardHeader className="relative h-[200px] p-0">
+        <Image
+          src={imageUrl}
+          alt={title}
+          className="object-cover"
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR0XFyAeIRshIRshHRsdIR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+          fill
+        />
+      </CardHeader>
+      <CardContent className="mt-4">
+        <CardTitle className="mb-2">{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
           <Image
-            src={imageUrl}
-            alt={title}
-            className="object-cover"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR0XFyAeIRshIRshHRsdIR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-            fill
+            className="dark:invert"
+            src="/assets/svgs/time.svg"
+            alt="소요시간"
+            width={14}
+            height={14}
+            priority
           />
-        </CardHeader>
-        <CardContent className="mt-4">
-          <CardTitle className="mb-2">{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
-            <Image
-              className="dark:invert"
-              src="/assets/svgs/time.svg"
-              alt="소요시간"
-              width={14}
-              height={14}
-              priority
-            />
-            <span>{cookingTime}분</span>
-          </div>
-          <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
-            <Image
-              className="dark:invert"
-              src="/assets/svgs/calorie.svg"
-              alt="칼로리"
-              width={14}
-              height={14}
-              priority
-            />
-            <span>{calorie}kcal</span>
-          </div>
-          <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
-            <Image
-              className="dark:invert"
-              src="/assets/svgs/difficulty.svg"
-              alt="난이도"
-              width={14}
-              height={14}
-              priority
-            />
-            <span>{difficulty}</span>
-          </div>
-        </CardFooter>
-      </Card>
-    </li>
+          <span>{cookingTime}분</span>
+        </div>
+        <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
+          <Image
+            className="dark:invert"
+            src="/assets/svgs/calorie.svg"
+            alt="칼로리"
+            width={14}
+            height={14}
+            priority
+          />
+          <span>{calorie}kcal</span>
+        </div>
+        <div className="flex items-center gap-x-1 text-sm text-muted-foreground">
+          <Image
+            className="dark:invert"
+            src="/assets/svgs/difficulty.svg"
+            alt="난이도"
+            width={14}
+            height={14}
+            priority
+          />
+          <span>{difficulty}</span>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }
