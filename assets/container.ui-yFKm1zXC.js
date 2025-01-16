@@ -1,0 +1,1 @@
+import{j as t}from"./jsx-runtime-BjG_zV1W.js";import{c as a}from"./cn-CytzSlOG.js";function x({children:r,className:o,...s}){return t.jsx("div",{className:a("mx-auto w-full max-w-screen-2xl px-8",o),...s,children:r})}export{x as C};
