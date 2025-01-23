@@ -176,7 +176,8 @@ export function CreateRecipeForm() {
                   <Input
                     type="number"
                     size="lg"
-                    placeholder="g"
+                    placeholder="0"
+                    rightSlot={<span className="text-muted-foreground">g</span>}
                     {...field}
                     onChange={(event) => field.onChange(event.target.valueAsNumber)}
                   />
@@ -195,7 +196,8 @@ export function CreateRecipeForm() {
                   <Input
                     type="number"
                     size="lg"
-                    placeholder="g"
+                    placeholder="0"
+                    rightSlot={<span className="text-muted-foreground">g</span>}
                     {...field}
                     onChange={(event) => field.onChange(event.target.valueAsNumber)}
                   />
@@ -214,7 +216,8 @@ export function CreateRecipeForm() {
                   <Input
                     type="number"
                     size="lg"
-                    placeholder="g"
+                    placeholder="0"
+                    rightSlot={<span className="text-muted-foreground">g</span>}
                     {...field}
                     onChange={(event) => field.onChange(event.target.valueAsNumber)}
                   />
@@ -233,7 +236,8 @@ export function CreateRecipeForm() {
                   <Input
                     type="number"
                     size="lg"
-                    placeholder="mg"
+                    placeholder="0"
+                    rightSlot={<span className="text-muted-foreground">mg</span>}
                     {...field}
                     onChange={(event) => field.onChange(event.target.valueAsNumber)}
                   />
