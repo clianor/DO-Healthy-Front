@@ -1,1 +1,1 @@
-export { DropZone } from './dropzone.ui';
+export { DropZone } from './drop-zone.ui';

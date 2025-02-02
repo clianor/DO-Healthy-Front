@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, within } from '@storybook/test';
 
-import { DropZone } from './dropzone.ui';
+import { DropZone } from './drop-zone.ui';
 
 const meta = {
   title: 'shared/DropZone',
