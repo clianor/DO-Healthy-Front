@@ -3,6 +3,7 @@ import { Plus, X } from 'lucide-react';
 import { useFieldArray, useForm, useFormContext } from 'react-hook-form';
 
 import { Button } from '@/shared/ui/button';
+import { DropZoneWithPreview } from '@/shared/ui/drop-zone-with-preview';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
@@ -15,40 +16,120 @@ export function CreateRecipeForm() {
     resolver: zodResolver(CreateRecipeSchema),
     defaultValues: {
       ingredients: [{ name: '', quantity: '' }],
-      cookingSteps: [{ content: '', image: '' }],
+      cookingSteps: [{ content: '', image: null }],
     },
   });
 
+  const onSubmit = async (formData: CreateRecipe) => {
+    try {
+      const newFormData = structuredClone(formData);
+
+      // 1. 썸네일 이미지 처리
+      if (formData.thumbnail instanceof File) {
+        // 실제 API 호출 대신 Promise 사용
+        newFormData.thumbnail = await new Promise<string>((resolve) => {
+          setTimeout(() => {
+            resolve('https://picsum.photos/id/237/350/200');
+          }, 1000);
+        });
+      }
+
+      // 2. 조리 단계 이미지들 처리
+      const cookingSteps = formData.cookingSteps.map((step) => {
+        if (step.image instanceof File) {
+          return new Promise<string>((resolve) => {
+            setTimeout(() => {
+              resolve('https://picsum.photos/id/237/350/200');
+            }, 1000);
+          });
+        }
+        return null;
+      });
+      let index = 0;
+      for await (const step of cookingSteps) {
+        if (step) {
+          newFormData.cookingSteps[index].image = step;
+        }
+        index++;
+      }
+
+      console.log('최종 제출될 데이터:', newFormData);
+    } catch (error) {
+      console.error('레시피 저장 중 오류 발생:', error);
+    }
+  };
+
   return (
     <Form {...methods}>
-      <form className="flex flex-col gap-y-4" onSubmit={methods.handleSubmit(console.log)}>
-        <FormField
-          control={methods.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>레시피 제목</FormLabel>
-              <FormControl>
-                <Input size="lg" placeholder="레시피 제목을 입력하세요" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form className="flex flex-col gap-y-4" onSubmit={methods.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-4 md:flex-row">
+          <div className="flex flex-1 flex-col gap-y-4">
+            <FormField
+              control={methods.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>레시피 제목</FormLabel>
+                  <FormControl>
+                    <Input size="lg" placeholder="레시피 제목을 입력하세요" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={methods.control}
-          name="thumbnail"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>대표 이미지</FormLabel>
-              <FormControl>
-                <Input type="file" accept="image/*" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={methods.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>요리 소개</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="h-24 resize-none"
+                      placeholder="요리에 대한 간단한 소개를 입력하세요"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={methods.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>태그</FormLabel>
+                  <FormControl>
+                    {/* TODO: 태그 인풋 추가 예정 */}
+                    <Input size="lg" placeholder="태그를 입력하세요 (쉼표로 구분)" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={methods.control}
+            name="thumbnail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>대표 이미지</FormLabel>
+                <FormControl>
+                  <DropZoneWithPreview
+                    className="aspect-square md:w-64"
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <fieldset className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           <FormField
@@ -63,7 +144,8 @@ export function CreateRecipeForm() {
                     type="number"
                     min={0}
                     size="lg"
-                    placeholder="예: 30분"
+                    placeholder="30"
+                    rightSlot={<span className="text-muted-foreground">분</span>}
                     {...field}
                     onChange={(event) => field.onChange(event.target.valueAsNumber)}
                   />
@@ -84,7 +166,8 @@ export function CreateRecipeForm() {
                     type="number"
                     min={0}
                     size="lg"
-                    placeholder="예: 300kcal"
+                    placeholder="300"
+                    rightSlot={<span className="text-muted-foreground">kcal</span>}
                     {...field}
                     onChange={(event) => field.onChange(event.target.valueAsNumber)}
                   />
@@ -105,7 +188,8 @@ export function CreateRecipeForm() {
                     type="number"
                     min={0}
                     size="lg"
-                    placeholder="예: 2인분"
+                    placeholder="2"
+                    rightSlot={<span className="text-muted-foreground">인분</span>}
                     {...field}
                     onChange={(event) => field.onChange(event.target.valueAsNumber)}
                   />
@@ -115,39 +199,6 @@ export function CreateRecipeForm() {
             )}
           />
         </fieldset>
-
-        <FormField
-          control={methods.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>요리 소개</FormLabel>
-              <FormControl>
-                <Textarea
-                  className="h-24 resize-none"
-                  placeholder="요리에 대한 간단한 소개를 입력하세요"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={methods.control}
-          name="tags"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>태그</FormLabel>
-              <FormControl>
-                {/* TODO: 태그 인풋 추가 예정 */}
-                <Input size="lg" placeholder="태그를 입력하세요 (쉼표로 구분)" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <fieldset className="flex flex-col gap-y-4">
           <Label asChild>
@@ -261,9 +312,6 @@ export function CreateRecipeForm() {
     </Form>
   );
 }
-// type IngredientItemProps = {
-//   step: number;
-// };
 
 /**
  * 레시피 재료 목록을 입력하는 컴포넌트입니다.
@@ -273,16 +321,16 @@ export function CreateRecipeForm() {
  * - 재료 간 순서 조정을 위한 드래그 앤 드롭 기능 추가
  */
 function IngredientList() {
-  const methods = useFormContext();
+  const methods = useFormContext<CreateRecipe>();
   const { fields, append, remove } = useFieldArray({
     control: methods.control,
     name: 'ingredients',
   });
 
-  const handleAddIngredient = () => append({ name: '', amount: '' });
+  const handleAddIngredient = () => append({ name: '', quantity: '' });
   const handleRemoveIngredient = (step: number) => {
     remove(step);
-    if (fields.length === 1) append({ name: '', amount: '' });
+    if (fields.length === 1) append({ name: '', quantity: '' });
   };
 
   return (
@@ -310,7 +358,7 @@ type IngredientItemProps = {
 };
 
 function IngredientItem({ step, onRemove }: IngredientItemProps) {
-  const methods = useFormContext();
+  const methods = useFormContext<CreateRecipe>();
 
   return (
     <div className="flex items-start gap-x-4">
@@ -329,18 +377,11 @@ function IngredientItem({ step, onRemove }: IngredientItemProps) {
         />
         <FormField
           control={methods.control}
-          name={`ingredients.${step}.amount`}
+          name={`ingredients.${step}.quantity`}
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  type="number"
-                  className="w-32"
-                  size="lg"
-                  placeholder="수량"
-                  {...field}
-                  onChange={(event) => field.onChange(event.target.valueAsNumber)}
-                />
+                <Input className="w-32" size="lg" placeholder="수량" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -369,16 +410,16 @@ function IngredientItem({ step, onRemove }: IngredientItemProps) {
  * - 조리 순서 간 순서 조정을 위한 드래그 앤 드롭 기능 추가
  */
 function CookingStepList() {
-  const methods = useFormContext();
+  const methods = useFormContext<CreateRecipe>();
   const { fields, append, remove } = useFieldArray({
     control: methods.control,
     name: 'cookingSteps',
   });
 
-  const handleAddStep = () => append({ content: '', image: '' });
+  const handleAddStep = () => append({ content: '', image: null });
   const handleRemoveStep = (step: number) => {
     remove(step);
-    if (fields.length === 1) append({ content: '', image: '' });
+    if (fields.length === 1) append({ content: '', image: null });
   };
 
   return (
@@ -402,24 +443,25 @@ type CookingStepItemProps = {
 };
 
 function CookingStepItem({ step, onRemove }: CookingStepItemProps) {
-  const methods = useFormContext();
+  const methods = useFormContext<CreateRecipe>();
 
   return (
     <div className="flex items-start gap-x-4">
       <div className="flex h-6 w-6 select-none items-center justify-center rounded-full bg-primary text-primary-foreground">
         {step + 1}
       </div>
-      <div className="flex flex-1 flex-col gap-y-2">
+
+      <fieldset className="flex flex-1 flex-col gap-2 md:flex-row">
         <FormField
           control={methods.control}
-          name={`cookingSteps.${step}.content`}
+          name={`cookingSteps.${step}.image`}
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Textarea
-                  placeholder="조리법을 입력하세요"
-                  className="min-h-[100px] resize-none"
-                  {...field}
+                <DropZoneWithPreview
+                  className="aspect-square md:w-60"
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
                 />
               </FormControl>
               <FormMessage />
@@ -428,17 +470,22 @@ function CookingStepItem({ step, onRemove }: CookingStepItemProps) {
         />
         <FormField
           control={methods.control}
-          name={`cookingSteps.${step}.image`}
+          name={`cookingSteps.${step}.content`}
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-1 flex-col">
               <FormControl>
-                <Input type="file" accept="image/*" {...field} />
+                <Textarea
+                  placeholder="조리법을 입력하세요"
+                  className="min-h-24 flex-1 resize-none"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-      </div>
+      </fieldset>
+
       <Button
         type="button"
         variant="ghost"

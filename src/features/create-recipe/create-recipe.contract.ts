@@ -1,5 +1,17 @@
 import { z } from 'zod';
 
+const ImageSchema = z
+  .union([z.instanceof(File), z.string()])
+  .nullable()
+  .superRefine((val, ctx) => {
+    if (val === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '이미지를 선택해주세요',
+      });
+    }
+  });
+
 export const IngredientSchema = z.object({
   name: z.string().trim().min(1, {
     message: '재료 이름을 입력해주세요',
@@ -10,11 +22,9 @@ export const IngredientSchema = z.object({
 });
 
 export const CookingStepSchema = z.object({
+  image: ImageSchema,
   content: z.string().trim().min(1, {
     message: '단계 설명을 입력해주세요',
-  }),
-  image: z.string().trim().url({
-    message: '이미지를 선택해주세요',
   }),
 });
 
@@ -26,13 +36,7 @@ export const CreateRecipeSchema = z.object({
       message: '레시피 제목을 입력해주세요',
     })
     .default(''),
-  thumbnail: z
-    .string()
-    .trim()
-    .url({
-      message: '이미지를 선택해주세요',
-    })
-    .default(''),
+  thumbnail: ImageSchema.default(null),
   cookingTime: z
     .number({
       invalid_type_error: '올바른 값을 입력해주세요',
